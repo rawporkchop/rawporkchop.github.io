@@ -1,1 +1,1346 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIMIT-1 — Arcsin Engineering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0b;
+    --bg2: #111114;
+    --bg3: #18181d;
+    --line: rgba(255,255,255,0.07);
+    --line2: rgba(255,255,255,0.14);
+    --text: #e8e6e0;
+    --muted: #6b6a66;
+    --accent: #e05c2a;
+    --accent2: #f0913a;
+    --mono: 'DM Mono', monospace;
+    --display: 'Syne', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* GRID LINES */
+  .grid-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 0%, black 0%, transparent 70%);
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(10,10,11,0.85);
+    backdrop-filter: blur(12px);
+  }
+
+  .nav-logo {
+    font-family: var(--display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-cta {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent) !important;
+    border: 1px solid var(--accent);
+    padding: 6px 16px;
+    border-radius: 2px;
+    transition: background 0.2s, color 0.2s !important;
+  }
+
+  .nav-cta:hover {
+    background: var(--accent) !important;
+    color: var(--bg) !important;
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 48px 80px;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero-radial {
+    position: absolute;
+    top: -20%;
+    right: -10%;
+    width: 70vw;
+    height: 70vw;
+    background: radial-gradient(ellipse at center, rgba(224,92,42,0.12) 0%, transparent 65%);
+    animation: pulse 8s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+  }
+
+  .hero-lines {
+    position: absolute;
+    top: 0; right: 0;
+    width: 55%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .hero-lines svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-size: clamp(52px, 8vw, 96px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+
+  h1 .outline {
+    -webkit-text-stroke: 1px var(--text);
+    color: transparent;
+  }
+
+  h1 .accent { color: var(--accent); }
+
+  .hero-desc {
+    max-width: 480px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.8s;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    background: var(--accent);
+    color: var(--bg);
+    text-decoration: none;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent2);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    border: 1px solid var(--line2);
+    color: var(--muted);
+    text-decoration: none;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--text);
+    color: var(--text);
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 40px;
+    right: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards 1.2s;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 48px;
+    background: linear-gradient(to bottom, var(--muted), transparent);
+    animation: scrollLine 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollLine {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  /* SPECS TICKER */
+  .ticker {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 12px 0;
+    background: var(--bg2);
+  }
+
+  .ticker-inner {
+    display: inline-flex;
+    gap: 0;
+    animation: ticker 20s linear infinite;
+  }
+
+  .ticker-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 32px;
+    padding: 0 32px;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .ticker-item span { color: var(--accent); }
+
+  .ticker-dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--line2);
+    flex-shrink: 0;
+  }
+
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* SECTIONS */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 120px 48px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    display: block;
+    flex: 1;
+    max-width: 48px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.5;
+  }
+
+  h2 {
+    font-family: var(--display);
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 48px;
+  }
+
+  /* ABOUT */
+  .about {
+    background: var(--bg2);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .about-text p {
+    color: var(--muted);
+    line-height: 1.9;
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+
+  .about-text p strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-top: 8px;
+  }
+
+  .stat {
+    background: var(--bg3);
+    padding: 28px 24px;
+    border: 1px solid var(--line);
+  }
+
+  .stat-num {
+    font-family: var(--display);
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .stat-num sup {
+    font-size: 20px;
+    color: var(--accent);
+  }
+
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ARCHITECTURE */
+  .arch {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .arch-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 64px;
+  }
+
+  .arch-diagram {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+
+  .arch-layer {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 2px;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .arch-layer.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .layer-label {
+    background: var(--bg3);
+    border: 1px solid var(--line);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+  }
+
+  .layer-label span {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+
+  .layer-content {
+    background: var(--bg3);
+    border: 1px solid var(--line);
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .layer-content.swift { border-left: 2px solid #7B61FF; }
+  .layer-content.bridge { border-left: 2px solid var(--accent); }
+  .layer-content.cpp { border-left: 2px solid #1DB954; }
+
+  .layer-name {
+    font-family: var(--display);
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .layer-tech {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .layer-badge {
+    margin-left: auto;
+    padding: 4px 10px;
+    border-radius: 2px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  .badge-purple { background: rgba(123,97,255,0.15); color: #7B61FF; }
+  .badge-orange { background: rgba(224,92,42,0.15); color: var(--accent); }
+  .badge-green { background: rgba(29,185,84,0.15); color: #1DB954; }
+
+  .arch-arrow {
+    display: flex;
+    justify-content: center;
+    padding: 6px 0;
+  }
+
+  .arch-arrow svg {
+    color: var(--muted);
+  }
+
+  /* FEATURES */
+  .features {
+    background: var(--bg2);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .features-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .feature {
+    background: var(--bg3);
+    border: 1px solid var(--line);
+    padding: 40px 32px;
+    transition: border-color 0.25s;
+    cursor: default;
+  }
+
+  .feature:hover {
+    border-color: var(--line2);
+  }
+
+  .feature-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 24px;
+    color: var(--accent);
+  }
+
+  .feature-title {
+    font-family: var(--display);
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+
+  .feature-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  /* MILESTONES */
+  .milestones-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .milestone-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+
+  .milestone {
+    display: grid;
+    grid-template-columns: 64px 1fr auto;
+    gap: 24px;
+    align-items: center;
+    background: var(--bg2);
+    border: 1px solid var(--line);
+    padding: 24px 28px;
+    transition: border-color 0.2s;
+  }
+
+  .milestone:hover { border-color: var(--line2); }
+
+  .milestone-num {
+    font-family: var(--display);
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--line2);
+    line-height: 1;
+  }
+
+  .milestone-info {}
+
+  .milestone-title {
+    font-family: var(--display);
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .milestone-desc {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .milestone-status {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+
+  .status-done { background: rgba(29,185,84,0.1); color: #1DB954; border: 1px solid rgba(29,185,84,0.2); }
+  .status-active { background: rgba(224,92,42,0.1); color: var(--accent); border: 1px solid rgba(224,92,42,0.3); }
+  .status-pending { background: var(--bg3); color: var(--muted); border: 1px solid var(--line); }
+
+  /* TECH STACK */
+  .stack {
+    background: var(--bg2);
+    border-top: 1px solid var(--line);
+  }
+
+  .stack-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+
+  .stack-item {
+    background: var(--bg3);
+    border: 1px solid var(--line);
+    padding: 32px 24px;
+  }
+
+  .stack-item-name {
+    font-family: var(--display);
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .stack-item-role {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    line-height: 1.6;
+  }
+
+  .stack-item-tag {
+    display: inline-block;
+    margin-top: 16px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-bottom: 1px solid rgba(224,92,42,0.3);
+    padding-bottom: 2px;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg);
+  }
+
+  .footer-logo {
+    font-family: var(--display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .footer-logo span { color: var(--accent); }
+
+  .footer-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+
+  .footer-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--text); }
+
+  .footer-copy {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* KNOB VISUAL */
+  .knob-visual {
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    transform: translateY(-50%);
+    opacity: 0;
+    animation: fadeIn 1.2s ease forwards 1s;
+  }
+
+  .knob-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 32px;
+    background: var(--bg2);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+  }
+
+  .knob {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .knob-body {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--bg3);
+    border: 1px solid var(--line2);
+    position: relative;
+    animation: knobRotate 6s ease-in-out infinite;
+  }
+
+  .knob-body::after {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 10px;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+
+  .knob:nth-child(2) .knob-body { animation-delay: -1s; }
+  .knob:nth-child(3) .knob-body { animation-delay: -2s; }
+  .knob:nth-child(4) .knob-body { animation-delay: -3s; }
+
+  @keyframes knobRotate {
+    0%, 100% { transform: rotate(-30deg); }
+    50% { transform: rotate(30deg); }
+  }
+
+  .knob-label {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-align: center;
+  }
+
+  .knob-ring {
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 1px solid rgba(224,92,42,0.2);
+  }
+
+  .knob-body:nth-child(1) { border-color: rgba(224,92,42,0.4); }
+
+  .device-label {
+    text-align: center;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 12px;
+  }
+
+  .device-sub {
+    font-size: 9px;
+    color: rgba(107,106,102,0.5);
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+  }
+
+  /* CODE BLOCK */
+  .code-block {
+    background: var(--bg3);
+    border: 1px solid var(--line);
+    border-left: 2px solid var(--accent);
+    padding: 20px 24px;
+    margin-top: 32px;
+    font-size: 12px;
+    color: var(--muted);
+    border-radius: 2px;
+  }
+
+  .code-block .key { color: #7B61FF; }
+  .code-block .val { color: var(--accent2); }
+  .code-block .comment { color: #3a3a3f; }
+
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .hero { padding: 0 24px 64px; }
+    section { padding: 80px 24px; }
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .features-grid { grid-template-columns: 1fr; }
+    .stack-grid { grid-template-columns: repeat(2, 1fr); }
+    .milestone { grid-template-columns: 48px 1fr; }
+    .milestone-status { display: none; }
+    .knob-visual { display: none; }
+    footer { flex-direction: column; gap: 24px; text-align: center; }
+    .footer-links { flex-wrap: wrap; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-overlay"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Arcsin<span>.</span>Engineering</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#architecture">Architecture</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#milestones">Milestones</a></li>
+    <li><a href="https://github.com/rawporkchop" class="nav-cta">GitHub</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-radial"></div>
+    <div class="hero-lines">
+      <svg viewBox="0 0 600 800" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <line x1="0" y1="200" x2="600" y2="200" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <line x1="0" y1="400" x2="600" y2="400" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <line x1="0" y1="600" x2="600" y2="600" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <line x1="200" y1="0" x2="200" y2="800" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <line x1="400" y1="0" x2="400" y2="800" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <circle cx="400" cy="300" r="180" stroke="rgba(224,92,42,0.08)" stroke-width="1" fill="none"/>
+        <circle cx="400" cy="300" r="120" stroke="rgba(224,92,42,0.06)" stroke-width="1" fill="none"/>
+        <circle cx="400" cy="300" r="60" stroke="rgba(224,92,42,0.1)" stroke-width="1" fill="none"/>
+        <circle cx="400" cy="300" r="6" fill="rgba(224,92,42,0.4)"/>
+        <line x1="100" y1="100" x2="340" y2="294" stroke="rgba(224,92,42,0.15)" stroke-width="1" stroke-dasharray="4 4"/>
+        <line x1="500" y1="500" x2="410" y2="306" stroke="rgba(224,92,42,0.1)" stroke-width="1" stroke-dasharray="4 4"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-tag">Arcsin Engineering — Mobile Audio</div>
+    <h1>
+      LIMIT<span class="accent">-1</span><br>
+      <span class="outline">Multieffects</span><br>
+      Companion
+    </h1>
+    <p class="hero-desc">
+      iOS companion app for the LIMIT-1 hardware multieffects unit.
+      IR cabinet loading, AUv3 plugin chaining, and a live-performance
+      knob carousel — built on a hybrid SwiftUI + C++ architecture.
+    </p>
+    <div class="hero-actions">
+      <a href="https://github.com" class="btn-primary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        View on GitHub
+      </a>
+      <a href="#architecture" class="btn-secondary">
+        Explore architecture →
+      </a>
+    </div>
+  </div>
+
+  <!-- Knob visual -->
+  <div class="knob-visual">
+    <div class="knob-grid">
+      <div class="knob">
+        <div class="knob-body"><div class="knob-ring"></div></div>
+        <div class="knob-label">I</div>
+      </div>
+      <div class="knob">
+        <div class="knob-body"></div>
+        <div class="knob-label">II</div>
+      </div>
+      <div class="knob">
+        <div class="knob-body"></div>
+        <div class="knob-label">III</div>
+      </div>
+      <div class="knob">
+        <div class="knob-body"></div>
+        <div class="knob-label">IV</div>
+      </div>
+    </div>
+    <div class="device-label">LIMIT-1</div>
+    <div class="device-sub">Arcsin Engineering</div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    scroll
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <div class="ticker-item"><span>SwiftUI</span><div class="ticker-dot"></div>UI Layer<div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>JUCE</span><div class="ticker-dot"></div>C++ Audio Engine<div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>AUv3</span><div class="ticker-dot"></div>Plugin Hosting<div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>Core MIDI</span><div class="ticker-dot"></div>Hardware Knobs<div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>IR Convolution</span><div class="ticker-dot"></div>Cabinet Simulation<div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>SwiftData</span><div class="ticker-dot"></div>Preset Persistence<div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>ObjC++</span><div class="ticker-dot"></div>Swift/C++ Bridge<div class="ticker-dot"></div></div>
+    <!-- duplicate for seamless loop -->
+    <div class="ticker-item"><span>SwiftUI</span><div class="ticker-dot"></div>UI Layer<div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>JUCE</span><div class="ticker-dot"></div>C++ Audio Engine<div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>AUv3</span><div class="ticker-dot"></div>Plugin Hosting<div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>Core MIDI</span><div class="ticker-dot"></div>Hardware Knobs<div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>IR Convolution</span><div class="ticker-dot"></div>Cabinet Simulation<div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>SwiftData</span><div class="ticker-dot"></div>Preset Persistence<div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>ObjC++</span><div class="ticker-dot"></div>Swift/C++ Bridge<div class="ticker-dot"></div></div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <div class="section-label">About the project</div>
+      <h2>Built for the stage,<br>not the studio</h2>
+      <p>
+        The LIMIT-1 is a <strong>mobile hardware multieffects unit</strong> by Arcsin Engineering,
+        designed for guitarists and performers who need professional-grade signal processing
+        without the weight of a traditional pedalboard.
+      </p>
+      <p>
+        This companion app extends the hardware with a full iOS interface — load
+        impulse responses, arrange AUv3 plugin chains, and map every parameter
+        to the 8 physical knobs on the device. Everything designed for
+        <strong>zero-friction live use</strong>.
+      </p>
+      <p>
+        The architecture bridges native SwiftUI with a C++ audio engine via
+        Objective-C++, keeping UI and DSP in their natural environments
+        without compromise.
+      </p>
+      <div class="code-block">
+        <span class="comment">// Signal path</span><br>
+        Input → <span class="key">IR Convolution</span> → <span class="val">AUv3 Chain</span> → Output
+      </div>
+    </div>
+    <div class="about-stats reveal">
+      <div class="stat">
+        <div class="stat-num">8<sup>×</sup></div>
+        <div class="stat-label">Physical knobs mapped to plugin parameters</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">3</div>
+        <div class="stat-label">App screens: IR loader, plugin chain, knob carousel</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">&lt;10<sup>ms</sup></div>
+        <div class="stat-label">Target round-trip audio latency</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">3<sup>×</sup></div>
+        <div class="stat-label">Platform targets: iOS, macOS, Windows</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section id="architecture">
+  <div class="arch">
+    <div class="arch-header reveal">
+      <div>
+        <div class="section-label">System design</div>
+        <h2>Hybrid architecture</h2>
+      </div>
+      <p style="max-width:320px; color:var(--muted); font-size:13px; line-height:1.8; margin-top:8px;">
+        Each layer speaks its native language.
+        Swift owns the UI. C++ owns the DSP.
+        Objective-C++ translates between them.
+      </p>
+    </div>
+
+    <div class="arch-diagram">
+      <div class="arch-layer" id="layer-swift">
+        <div class="layer-label"><span>UI</span></div>
+        <div class="layer-content swift">
+          <div>
+            <div class="layer-name">SwiftUI</div>
+            <div class="layer-tech">IR loader · Plugin chain · Knob carousel</div>
+          </div>
+          <div class="layer-badge badge-purple">Swift</div>
+        </div>
+      </div>
+
+      <div class="arch-arrow">
+        <svg width="16" height="20" viewBox="0 0 16 20" fill="none">
+          <path d="M8 0v16M2 10l6 6 6-6" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8 20V4M2 10l6-6 6 6" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" transform="translate(0,-4)"/>
+        </svg>
+      </div>
+
+      <div class="arch-layer" id="layer-bridge">
+        <div class="layer-label"><span>Bridge</span></div>
+        <div class="layer-content bridge">
+          <div>
+            <div class="layer-name">Objective-C++ (.mm)</div>
+            <div class="layer-tech">AudioEngineWrapper · ParameterBridge · MIDIBridge</div>
+          </div>
+          <div class="layer-badge badge-orange">ObjC++</div>
+        </div>
+      </div>
+
+      <div class="arch-arrow">
+        <svg width="16" height="20" viewBox="0 0 16 20" fill="none">
+          <path d="M8 0v16M2 10l6 6 6-6" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8 20V4M2 10l6-6 6 6" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" transform="translate(0,-4)"/>
+        </svg>
+      </div>
+
+      <div class="arch-layer" id="layer-cpp">
+        <div class="layer-label"><span>DSP</span></div>
+        <div class="layer-content cpp">
+          <div>
+            <div class="layer-name">C++ / JUCE</div>
+            <div class="layer-tech">AudioProcessorGraph · ConvolutionEngine · AUv3 Host</div>
+          </div>
+          <div class="layer-badge badge-green">C++17</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="features-inner">
+    <div class="section-label reveal">Core features</div>
+    <h2 class="reveal">Everything you need<br>at volume</h2>
+    <div class="features-grid">
+
+      <div class="feature reveal">
+        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M9 19V6l12-3v13" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="6" cy="19" r="3"/>
+          <circle cx="18" cy="16" r="3"/>
+        </svg>
+        <div class="feature-title">IR Cabinet Loading</div>
+        <div class="feature-desc">Load any .wav impulse response for real-time cabinet simulation. JUCE ConvolutionEngine with background loading — no audio thread blocking.</div>
+      </div>
+
+      <div class="feature reveal">
+        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="8" width="18" height="4" rx="1"/>
+          <rect x="3" y="14" width="18" height="4" rx="1"/>
+          <path d="M7 8V6M17 8V6M7 18v2M17 18v2" stroke-linecap="round"/>
+        </svg>
+        <div class="feature-title">AUv3 Plugin Chain</div>
+        <div class="feature-desc">Host and reorder AUv3 plugins in a live signal chain. Each plugin runs in its own XPC process — one crash never brings down the host.</div>
+      </div>
+
+      <div class="feature reveal">
+        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="12" cy="12" r="8"/>
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M12 4v2M12 18v2M4 12h2M18 12h2" stroke-linecap="round"/>
+        </svg>
+        <div class="feature-title">Knob Carousel</div>
+        <div class="feature-desc">Full-screen rotary knobs at 88pt minimum — built for gloves, low light, and live stages. Swipe to switch plugins, no tab bar in sight.</div>
+      </div>
+
+      <div class="feature reveal">
+        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="feature-title">Bidirectional MIDI Sync</div>
+        <div class="feature-desc">Physical knob turns update the screen. Screen drags send MIDI CC back to hardware. Feedback loops eliminated with source-tagged parameter updates.</div>
+      </div>
+
+      <div class="feature reveal">
+        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="feature-title">Preset Persistence</div>
+        <div class="feature-desc">SwiftData backs every preset, IR file reference, and plugin chain. Presets survive app restarts, device migrations, and iCloud sync.</div>
+      </div>
+
+      <div class="feature reveal">
+        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="2" y="3" width="20" height="14" rx="2"/>
+          <path d="M8 21h8M12 17v4" stroke-linecap="round"/>
+        </svg>
+        <div class="feature-title">Multi-Platform</div>
+        <div class="feature-desc">iOS first, then macOS via Catalyst, then Windows via JUCE. The C++ audio engine is platform-agnostic — only the UI adapts per target.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- MILESTONES -->
+<section id="milestones">
+  <div class="milestones-inner">
+    <div class="section-label reveal">Build order</div>
+    <h2 class="reveal">Development milestones</h2>
+    <div class="milestone-list">
+
+      <div class="milestone reveal">
+        <div class="milestone-num">01</div>
+        <div class="milestone-info">
+          <div class="milestone-title">C++ Audio Pass-Through</div>
+          <div class="milestone-desc">AUGraph RemoteIO dry signal, ObjC++ bridge, SwiftUI engine toggle</div>
+        </div>
+        <div class="milestone-status status-done">Complete</div>
+      </div>
+
+      <div class="milestone reveal">
+        <div class="milestone-num">02</div>
+        <div class="milestone-info">
+          <div class="milestone-title">IR Convolution</div>
+          <div class="milestone-desc">JUCE ConvolutionEngine, .wav loading, background thread init, gain normalisation</div>
+        </div>
+        <div class="milestone-status status-active">In progress</div>
+      </div>
+
+      <div class="milestone reveal">
+        <div class="milestone-num">03</div>
+        <div class="milestone-info">
+          <div class="milestone-title">AUv3 Plugin Hosting</div>
+          <div class="milestone-desc">JUCE AudioProcessorGraph, XPC process isolation, chain reordering</div>
+        </div>
+        <div class="milestone-status status-pending">Pending</div>
+      </div>
+
+      <div class="milestone reveal">
+        <div class="milestone-num">04</div>
+        <div class="milestone-info">
+          <div class="milestone-title">Objective-C++ Bridge</div>
+          <div class="milestone-desc">Full parameter bridge, stable UInt32 IDs, Swift-safe type translations</div>
+        </div>
+        <div class="milestone-status status-pending">Pending</div>
+      </div>
+
+      <div class="milestone reveal">
+        <div class="milestone-num">05</div>
+        <div class="milestone-info">
+          <div class="milestone-title">SwiftUI UI — All Three Screens</div>
+          <div class="milestone-desc">Knob carousel (88pt+), IR loader, plugin chain manager, swipe navigation</div>
+        </div>
+        <div class="milestone-status status-pending">Pending</div>
+      </div>
+
+      <div class="milestone reveal">
+        <div class="milestone-num">06</div>
+        <div class="milestone-info">
+          <div class="milestone-title">Core MIDI Integration</div>
+          <div class="milestone-desc">MIDIKit, CC → parameter mapping, bidirectional sync, feedback loop prevention</div>
+        </div>
+        <div class="milestone-status status-pending">Pending</div>
+      </div>
+
+      <div class="milestone reveal">
+        <div class="milestone-num">07</div>
+        <div class="milestone-info">
+          <div class="milestone-title">Presets & Persistence</div>
+          <div class="milestone-desc">SwiftData schema, IR file bookmarks, plugin chain serialisation</div>
+        </div>
+        <div class="milestone-status status-pending">Pending</div>
+      </div>
+
+      <div class="milestone reveal">
+        <div class="milestone-num">08</div>
+        <div class="milestone-info">
+          <div class="milestone-title">iPad & macOS Layout</div>
+          <div class="milestone-desc">Adaptive layouts, Mac Catalyst, keyboard shortcuts, larger knob targets</div>
+        </div>
+        <div class="milestone-status status-pending">Pending</div>
+      </div>
+
+      <div class="milestone reveal">
+        <div class="milestone-num">09</div>
+        <div class="milestone-info">
+          <div class="milestone-title">Windows</div>
+          <div class="milestone-desc">JUCE Windows audio backend, Win32 MIDI, platform-specific UI adjustments</div>
+        </div>
+        <div class="milestone-status status-pending">Pending</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section class="stack">
+  <div class="stack-inner">
+    <div class="section-label reveal">Stack</div>
+    <h2 class="reveal">Technology choices</h2>
+    <div class="stack-grid">
+      <div class="stack-item reveal">
+        <div class="stack-item-name">JUCE</div>
+        <div class="stack-item-role">C++ audio engine, IR convolution, AUv3 plugin hosting, cross-platform audio I/O</div>
+        <div class="stack-item-tag">C++17</div>
+      </div>
+      <div class="stack-item reveal">
+        <div class="stack-item-name">SwiftUI</div>
+        <div class="stack-item-role">All UI — knob carousel, IR loader, plugin chain manager, swipe navigation</div>
+        <div class="stack-item-tag">Swift 5.9</div>
+      </div>
+      <div class="stack-item reveal">
+        <div class="stack-item-name">MIDIKit</div>
+        <div class="stack-item-role">Core MIDI abstraction, hardware CC parsing, bidirectional parameter sync</div>
+        <div class="stack-item-tag">Swift Package</div>
+      </div>
+      <div class="stack-item reveal">
+        <div class="stack-item-name">SwiftData</div>
+        <div class="stack-item-role">Preset persistence, IR file references, plugin chain storage, iCloud sync</div>
+        <div class="stack-item-tag">iOS 17+</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Arcsin<span>.</span>Engineering</div>
+  <ul class="footer-links">
+    <li><a href="https://github.com">GitHub</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#architecture">Architecture</a></li>
+    <li><a href="#milestones">Milestones</a></li>
+  </ul>
+  <div class="footer-copy">LIMIT-1 Companion App</div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Architecture layer stagger
+  const archObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        ['layer-swift','layer-bridge','layer-cpp'].forEach((id, i) => {
+          setTimeout(() => {
+            const el = document.getElementById(id);
+            if (el) el.classList.add('visible');
+          }, i * 150);
+        });
+        archObserver.disconnect();
+      }
+    });
+  }, { threshold: 0.2 });
+
+  const archDiagram = document.querySelector('.arch-diagram');
+  if (archDiagram) archObserver.observe(archDiagram);
+</script>
+</body>
+</html>
