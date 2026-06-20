@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Products — Arcsin Engineering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0b;
+    --bg2: #111114;
+    --bg3: #18181d;
+    --line: rgba(255,255,255,0.07);
+    --line2: rgba(255,255,255,0.14);
+    --text: #e8e6e0;
+    --muted: #6b6a66;
+    --accent: #e05c2a;
+    --accent2: #f0913a;
+    --mono: 'DM Mono', monospace;
+    --display: 'Syne', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  .grid-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 0%, black 0%, transparent 70%);
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(10,10,11,0.85);
+    backdrop-filter: blur(12px);
+  }
+
+  .nav-logo {
+    font-family: var(--display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a.active { color: var(--text); }
+
+  .nav-cta {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent) !important;
+    border: 1px solid var(--accent);
+    padding: 6px 16px;
+    border-radius: 2px;
+    transition: background 0.2s, color 0.2s !important;
+  }
+
+  .nav-cta:hover {
+    background: var(--accent) !important;
+    color: var(--bg) !important;
+  }
+
+  /* PAGE HEADER */
+  .page-header {
+    position: relative;
+    padding: 160px 48px 80px;
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+  }
+
+  .page-header-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .header-radial {
+    position: absolute;
+    top: -40%;
+    left: -5%;
+    width: 60vw;
+    height: 60vw;
+    background: radial-gradient(ellipse at center, rgba(224,92,42,0.09) 0%, transparent 65%);
+  }
+
+  .page-header-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .page-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+
+  .page-tag::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .page-header h1 {
+    font-family: var(--display);
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+
+  .page-header h1 .outline {
+    -webkit-text-stroke: 1px var(--text);
+    color: transparent;
+  }
+
+  .page-header-desc {
+    max-width: 520px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.8;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+
+  /* SECTIONS */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 100px 48px;
+  }
+
+  .section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    display: block;
+    flex: 1;
+    max-width: 48px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.5;
+  }
+
+  h2 {
+    font-family: var(--display);
+    font-size: clamp(28px, 3.5vw, 48px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 48px;
+  }
+
+  /* FEATURED PRODUCT */
+  .featured {
+    background: var(--bg2);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .product-featured {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .product-featured-visual {
+    background: var(--bg3);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 360px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-featured-visual::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.5;
+  }
+
+  .product-knob-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  .knob {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .knob-body {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 1px solid var(--line2);
+    position: relative;
+    animation: knobRotate 6s ease-in-out infinite;
+  }
+
+  .knob-body::after {
+    content: '';
+    position: absolute;
+    top: 7px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 11px;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+
+  .knob:nth-child(2) .knob-body { animation-delay: -1.5s; }
+  .knob:nth-child(3) .knob-body { animation-delay: -3s; }
+  .knob:nth-child(4) .knob-body { animation-delay: -4.5s; }
+
+  @keyframes knobRotate {
+    0%, 100% { transform: rotate(-30deg); }
+    50% { transform: rotate(30deg); }
+  }
+
+  .knob-ring {
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 1px solid rgba(224,92,42,0.25);
+  }
+
+  .knob-label {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-align: center;
+  }
+
+  .product-visual-label {
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+
+  .product-visual-sub {
+    font-size: 9px;
+    color: rgba(107,106,102,0.5);
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+    text-align: center;
+  }
+
+  .product-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 2px;
+    background: rgba(224,92,42,0.1);
+    color: var(--accent);
+    border: 1px solid rgba(224,92,42,0.3);
+  }
+
+  .product-featured-info {}
+
+  .product-featured-info .section-label { margin-bottom: 12px; }
+
+  .product-name {
+    font-family: var(--display);
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+
+  .product-name .accent { color: var(--accent); }
+
+  .product-tagline {
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  .product-desc {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.9;
+    margin-bottom: 32px;
+  }
+
+  .product-desc strong { color: var(--text); font-weight: 500; }
+
+  .product-specs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-bottom: 36px;
+  }
+
+  .spec-item {
+    background: var(--bg3);
+    border: 1px solid var(--line);
+    padding: 16px 18px;
+  }
+
+  .spec-key {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .spec-val {
+    font-family: var(--display);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .spec-val .accent { color: var(--accent); }
+
+  .product-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    background: var(--accent);
+    color: var(--bg);
+    text-decoration: none;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent2);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    border: 1px solid var(--line2);
+    color: var(--muted);
+    text-decoration: none;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--text);
+    color: var(--text);
+  }
+
+  /* SPEC TABLE */
+  .spec-table-section {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .spec-table {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+
+  .spec-row {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    background: var(--bg2);
+    border: 1px solid var(--line);
+    transition: border-color 0.2s;
+  }
+
+  .spec-row:hover { border-color: var(--line2); }
+
+  .spec-row-key {
+    padding: 18px 24px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-right: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+  }
+
+  .spec-row-val {
+    padding: 18px 24px;
+    font-size: 13px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+  }
+
+  /* UPCOMING */
+  .upcoming {
+    background: var(--bg2);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .upcoming-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .upcoming-card {
+    background: var(--bg3);
+    border: 1px solid var(--line);
+    padding: 40px 32px;
+    transition: border-color 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .upcoming-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(224,92,42,0.3), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .upcoming-card:hover { border-color: var(--line2); }
+  .upcoming-card:hover::before { opacity: 1; }
+
+  .upcoming-status {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 2px;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+
+  .status-concept { background: var(--bg); color: var(--muted); border: 1px solid var(--line); }
+  .status-research { background: rgba(123,97,255,0.1); color: #7B61FF; border: 1px solid rgba(123,97,255,0.2); }
+
+  .upcoming-name {
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  .upcoming-sub {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .upcoming-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  .upcoming-icon {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 20px;
+    color: var(--accent);
+    opacity: 0.6;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg);
+    position: relative;
+    z-index: 1;
+  }
+
+  .footer-logo {
+    font-family: var(--display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .footer-logo span { color: var(--accent); }
+
+  .footer-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+
+  .footer-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--text); }
+
+  .footer-copy {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .page-header { padding: 120px 24px 60px; }
+    section { padding: 72px 24px; }
+    .product-featured { grid-template-columns: 1fr; gap: 40px; }
+    .product-featured-visual { min-height: 280px; }
+    .upcoming-grid { grid-template-columns: 1fr; }
+    .spec-row { grid-template-columns: 160px 1fr; }
+    footer { flex-direction: column; gap: 24px; text-align: center; }
+    .footer-links { flex-wrap: wrap; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-overlay"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Arcsin<span>.</span>Engineering</a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#architecture">Architecture</a></li>
+    <li><a href="index.html#features">Features</a></li>
+    <li><a href="index.html#milestones">Milestones</a></li>
+    <li><a href="products.html" class="active">Products</a></li>
+    <li><a href="https://github.com/rawporkchop" class="nav-cta">GitHub</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-bg">
+    <div class="header-radial"></div>
+  </div>
+  <div class="page-header-content">
+    <div class="page-tag">Arcsin Engineering — Hardware & Software</div>
+    <h1>
+      Our<br>
+      <span class="outline">Products</span>
+    </h1>
+    <p class="page-header-desc">
+      Purpose-built hardware and software for performing musicians.
+      Every product designed around one constraint: it has to work on stage.
+    </p>
+  </div>
+</div>
+
+<!-- FEATURED PRODUCT -->
+<section class="featured">
+  <div class="section-inner">
+    <div class="product-featured">
+
+      <div class="product-featured-visual reveal">
+        <div class="product-badge">In Development</div>
+        <div class="product-knob-grid">
+          <div class="knob">
+            <div class="knob-body"><div class="knob-ring"></div></div>
+            <div class="knob-label">I</div>
+          </div>
+          <div class="knob">
+            <div class="knob-body"></div>
+            <div class="knob-label">II</div>
+          </div>
+          <div class="knob">
+            <div class="knob-body"></div>
+            <div class="knob-label">III</div>
+          </div>
+          <div class="knob">
+            <div class="knob-body"></div>
+            <div class="knob-label">IV</div>
+          </div>
+        </div>
+        <div class="product-visual-label">LIMIT-1</div>
+        <div class="product-visual-sub">Arcsin Engineering</div>
+      </div>
+
+      <div class="product-featured-info reveal">
+        <div class="section-label">Featured product</div>
+        <div class="product-name">LIMIT<span class="accent">-1</span></div>
+        <div class="product-tagline">Mobile Multieffects Unit</div>
+        <p class="product-desc">
+          A <strong>hardware multieffects processor</strong> paired with an iOS companion app.
+          Load impulse responses, chain AUv3 plugins, and control every parameter
+          from 8 physical knobs — built for the stage, not the studio.
+        </p>
+        <p class="product-desc">
+          The iOS app bridges native SwiftUI with a C++ audio engine via Objective-C++,
+          keeping UI and DSP in their natural environments
+          with <strong>sub-10ms round-trip latency</strong>.
+        </p>
+        <div class="product-specs">
+          <div class="spec-item">
+            <div class="spec-key">Latency</div>
+            <div class="spec-val">&lt;10<span class="accent">ms</span></div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-key">Controls</div>
+            <div class="spec-val">8 Knobs</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-key">Platform</div>
+            <div class="spec-val">iOS / macOS</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-key">Engine</div>
+            <div class="spec-val">JUCE / C++</div>
+          </div>
+        </div>
+        <div class="product-actions">
+          <a href="index.html" class="btn-primary">
+            View dev log →
+          </a>
+          <a href="https://github.com/rawporkchop" class="btn-secondary">
+            GitHub
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SPEC TABLE -->
+<section class="spec-table-section">
+  <div class="section-inner">
+    <div class="section-label reveal">Technical specs</div>
+    <h2 class="reveal">LIMIT-1 specifications</h2>
+    <div class="spec-table reveal">
+      <div class="spec-row">
+        <div class="spec-row-key">Audio Engine</div>
+        <div class="spec-row-val">JUCE / C++17 — AudioProcessorGraph with ConvolutionEngine</div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-row-key">UI Framework</div>
+        <div class="spec-row-val">SwiftUI — knob carousel, IR loader, plugin chain manager</div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-row-key">Bridge Layer</div>
+        <div class="spec-row-val">Objective-C++ (.mm) — AudioEngineWrapper, ParameterBridge, MIDIBridge</div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-row-key">Plugin Format</div>
+        <div class="spec-row-val">AUv3 — XPC process isolation, live chain reordering</div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-row-key">IR Loading</div>
+        <div class="spec-row-val">.wav impulse responses, background thread init, gain normalisation</div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-row-key">MIDI</div>
+        <div class="spec-row-val">Core MIDI via MIDIKit — bidirectional CC sync, feedback loop prevention</div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-row-key">Persistence</div>
+        <div class="spec-row-val">SwiftData — presets, IR references, plugin chains, iCloud sync</div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-row-key">Platforms</div>
+        <div class="spec-row-val">iOS → macOS (Catalyst) → Windows (JUCE backend)</div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-row-key">Target latency</div>
+        <div class="spec-row-val">&lt;10ms round-trip audio</div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-row-key">Knob targets</div>
+        <div class="spec-row-val">88pt minimum — designed for gloves and low-light stage use</div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-row-key">Status</div>
+        <div class="spec-row-val">In active development — milestone 02 / 09 complete</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UPCOMING -->
+<section class="upcoming">
+  <div class="section-inner">
+    <div class="section-label reveal">On the roadmap</div>
+    <h2 class="reveal">What's next</h2>
+    <div class="upcoming-grid">
+
+      <div class="upcoming-card reveal">
+        <svg class="upcoming-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="2" y="3" width="20" height="14" rx="2"/>
+          <path d="M8 21h8M12 17v4" stroke-linecap="round"/>
+        </svg>
+        <div class="upcoming-status status-concept">Concept</div>
+        <div class="upcoming-name">LIMIT-1 Desktop</div>
+        <div class="upcoming-sub">macOS / Windows</div>
+        <p class="upcoming-desc">
+          Full macOS app via Catalyst and a native Windows build on the same JUCE
+          audio engine. The C++ DSP layer is already platform-agnostic — only
+          the UI shell adapts per target.
+        </p>
+      </div>
+
+      <div class="upcoming-card reveal">
+        <svg class="upcoming-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="upcoming-status status-research">Research</div>
+        <div class="upcoming-name">IR Library</div>
+        <div class="upcoming-sub">Cabinet Impulse Responses</div>
+        <p class="upcoming-desc">
+          A curated collection of cabinet impulse responses optimised for live use —
+          low-latency, normalised, and tagged by speaker type, mic position, and genre.
+        </p>
+      </div>
+
+      <div class="upcoming-card reveal">
+        <svg class="upcoming-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="12" cy="12" r="8"/>
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M12 4v2M12 18v2M4 12h2M18 12h2" stroke-linecap="round"/>
+        </svg>
+        <div class="upcoming-status status-concept">Concept</div>
+        <div class="upcoming-name">LIMIT-2</div>
+        <div class="upcoming-sub">Next Generation</div>
+        <p class="upcoming-desc">
+          8-knob hardware revision with USB-C audio I/O, expanded parameter mapping,
+          and a larger form factor designed for studio-to-stage portability.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Arcsin<span>.</span>Engineering</div>
+  <ul class="footer-links">
+    <li><a href="https://github.com/rawporkchop">GitHub</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#architecture">Architecture</a></li>
+    <li><a href="index.html#milestones">Milestones</a></li>
+    <li><a href="products.html">Products</a></li>
+  </ul>
+  <div class="footer-copy">LIMIT-1 Companion App</div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
