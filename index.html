@@ -21,7 +21,7 @@
 
   @property --iris-angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
   @keyframes iris-rotate { to { --iris-angle: 360deg; } }
-  @keyframes iris-flow { 0% { background-position: 0% 0%; } 100% { background-position: 150% 150%; } }
+  @keyframes iris-flow { 0% { background-position: 0% 100%; } 100% { background-position: 100% 0%; } }
 
   :root {
     --bg:   #050505; --bg2: #0b0b0b; --bg3: #111;
@@ -59,7 +59,7 @@
   /* NAV */
   nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 20px 48px; border-bottom: 1px solid var(--line); background: var(--nav-bg); backdrop-filter: blur(14px); }
   .nav-logo { font-family: var(--disp); font-size: 13px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--text); text-decoration: none; }
-  .iris-inline { background: var(--iris); background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: iris-flow 10s linear infinite; }
+  .iris-inline { background: var(--iris); background-size: 600% 600%; background-repeat: no-repeat; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: iris-flow 10s ease-in-out infinite alternate; }
   .nav-links { display: flex; gap: 32px; list-style: none; align-items: center; }
   .nav-links a { color: var(--muted); text-decoration: none; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; transition: color .2s; }
   .nav-links a:hover { color: var(--text); }
@@ -77,16 +77,16 @@
   .hero-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-60%); width: 80vw; height: 80vw; max-width: 800px; max-height: 800px; background: radial-gradient(ellipse at center, rgba(140,80,255,.04) 0%, rgba(60,200,255,.025) 40%, transparent 70%); pointer-events: none; animation: pulse 10s ease-in-out infinite; }
   @keyframes pulse { 0%,100% { opacity: .7; transform: translate(-50%,-60%) scale(1); } 50% { opacity: 1; transform: translate(-50%,-60%) scale(1.04); } }
 
-  .featured-label { font-size: 11px; letter-spacing: .25em; text-transform: uppercase; background: var(--iris); background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: iris-flow 8s linear infinite; margin-bottom: 20px; opacity: 0; animation: iris-flow 8s linear infinite, fadeUp .7s ease forwards .1s; }
+  .featured-label { font-size: 11px; letter-spacing: .25em; text-transform: uppercase; background: var(--iris); background-size: 600% 600%; background-repeat: no-repeat; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: iris-flow 8s ease-in-out infinite alternate; margin-bottom: 20px; opacity: 0; animation: iris-flow 8s ease-in-out infinite alternate, fadeUp .7s ease forwards .1s; }
 
   .product-title { font-family: 'Nemesys', var(--disp); font-size: clamp(72px, 14vw, 160px); font-weight: 400; line-height: .88; letter-spacing: -.01em; margin-bottom: 12px; opacity: 0; animation: fadeUp .8s ease forwards .3s; }
-  .product-title .accent { background: var(--iris); background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: iris-flow 10s linear infinite; }
+  .product-title .accent { background: var(--iris); background-size: 600% 600%; background-repeat: no-repeat; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: iris-flow 10s ease-in-out infinite alternate; }
 
   .product-sub { font-size: 13px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-bottom: 56px; opacity: 0; animation: fadeUp .8s ease forwards .5s; }
 
   /* Knob showcase */
   .knob-showcase { display: flex; gap: 28px; align-items: center; justify-content: center; margin-bottom: 56px; padding: 36px 48px; background: var(--bg2); border: 1px solid var(--line); border-radius: 4px; position: relative; opacity: 0; animation: fadeUp .8s ease forwards .7s; }
-  .knob-showcase::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--iris); background-size: 300% 300%; animation: iris-flow 8s linear infinite; opacity: .4; }
+  .knob-showcase::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--iris); background-size: 600% 600%; background-repeat: no-repeat; animation: iris-flow 8s ease-in-out infinite alternate; opacity: .4; }
 
   .knob { display: flex; flex-direction: column; align-items: center; gap: 12px; }
   .knob-body { width: 68px; height: 68px; border-radius: 50%; background: var(--bg3); border: 1px solid var(--line2); position: relative; animation: knobRotate 6s ease-in-out infinite; }
@@ -116,11 +116,11 @@
   .explore { position: relative; z-index: 1; padding: 100px 48px; border-top: 1px solid var(--line); background: var(--bg2); }
   .explore-inner { max-width: 1200px; margin: 0 auto; }
   .explore-label { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--text); margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
-  .explore-label::after { content: ''; display: block; flex: 1; max-width: 48px; height: 1px; background: var(--iris); background-size: 300% 300%; animation: iris-flow 8s linear infinite; opacity: .75; }
+  .explore-label::after { content: ''; display: block; flex: 1; max-width: 48px; height: 1px; background: var(--iris); background-size: 600% 600%; background-repeat: no-repeat; animation: iris-flow 8s ease-in-out infinite alternate; opacity: .75; }
   .explore-heading { font-family: var(--disp); font-size: clamp(28px, 3.5vw, 44px); font-weight: 700; line-height: 1.1; letter-spacing: -.02em; margin-bottom: 48px; }
   .explore-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; }
   .explore-card { background: var(--bg3); border: 1px solid var(--line); padding: 40px 32px; text-decoration: none; color: inherit; display: block; position: relative; overflow: hidden; transition: border-color .25s; }
-  .explore-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--iris); background-size: 300% 300%; animation: iris-flow 8s linear infinite; opacity: 0; transition: opacity .3s; }
+  .explore-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--iris); background-size: 600% 600%; background-repeat: no-repeat; animation: iris-flow 8s ease-in-out infinite alternate; opacity: 0; transition: opacity .3s; }
   .explore-card::before { content: ''; position: absolute; top: 8px; left: 8px; width: 10px; height: 10px; border-top: 1px solid transparent; border-left: 1px solid transparent; transition: border-color .3s, top .2s, left .2s; }
   .explore-card:hover { border-color: var(--line2); }
   .explore-card:hover::after { opacity: 1; }
@@ -154,8 +154,7 @@
     footer { flex-direction: column; gap: 24px; text-align: center; padding: 36px 24px; }
     .footer-links { flex-wrap: wrap; justify-content: center; }
     .cursor-dot, .cursor-ring { display: none; } body { cursor: auto; }
-  }
-</style>
+  }</style>
 </head>
 <body>
 <div class="cursor-dot"></div>

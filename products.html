@@ -27,8 +27,8 @@
   }
   @keyframes iris-rotate { to { --iris-angle: 360deg; } }
   @keyframes iris-flow {
-    0%   { background-position: 0% 0%; }
-    100% { background-position: 150% 150%; }
+    0%   { background-position: 0% 100%; }
+    100% { background-position: 100% 0%; }
   }
 
   :root {
@@ -164,11 +164,11 @@
 
   .iris-inline {
     background: var(--iris);
-    background-size: 300% 300%;
+    background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: iris-flow 10s linear infinite;
+    animation: iris-flow 10s ease-in-out infinite alternate;
   }
 
   .nav-links { display: flex; gap: 36px; list-style: none; }
@@ -228,8 +228,8 @@
   .page-tag::before {
     content: '';
     display: inline-block; width: 24px; height: 1px;
-    background: var(--iris); background-size: 300% 300%;
-    animation: iris-flow 8s linear infinite;
+    background: var(--iris); background-size: 200% auto;
+    animation: iris-flow 8s ease-in-out infinite alternate;
   }
 
   .page-header h1 {
@@ -261,8 +261,8 @@
 
   .section-label::after {
     content: ''; display: block; flex: 1; max-width: 48px; height: 1px;
-    background: var(--iris); background-size: 300% 300%;
-    animation: iris-flow 8s linear infinite; opacity: .75;
+    background: var(--iris); background-size: 200% auto;
+    animation: iris-flow 8s ease-in-out infinite alternate; opacity: .75;
   }
 
   h2 {
@@ -291,8 +291,8 @@
   .product-featured-visual::before {
     content: '';
     position: absolute; top: 0; left: 0; right: 0; height: 1px;
-    background: var(--iris); background-size: 300% 300%;
-    animation: iris-flow 8s linear infinite; opacity: .5;
+    background: var(--iris); background-size: 200% auto;
+    animation: iris-flow 8s ease-in-out infinite alternate; opacity: .5;
   }
 
   .product-badge {
@@ -354,9 +354,9 @@
   }
 
   .product-name .accent {
-    background: var(--iris); background-size: 300% 300%;
+    background: var(--iris); background-size: 200% auto;
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text; animation: iris-flow 10s linear infinite;
+    background-clip: text; animation: iris-flow 10s ease-in-out infinite alternate;
   }
 
   .product-tagline {
@@ -373,9 +373,9 @@
   .spec-key { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
   .spec-val { font-family: var(--disp); font-size: 15px; font-weight: 600; }
   .spec-val .accent {
-    background: var(--iris); background-size: 300% 300%;
+    background: var(--iris); background-size: 200% auto;
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text; animation: iris-flow 10s linear infinite;
+    background-clip: text; animation: iris-flow 10s ease-in-out infinite alternate;
   }
 
   .product-actions { display: flex; gap: 12px; align-items: center; }
@@ -435,8 +435,8 @@
   .upcoming-card::after {
     content: '';
     position: absolute; top: 0; left: 0; right: 0; height: 1px;
-    background: var(--iris); background-size: 300% 300%;
-    animation: iris-flow 8s linear infinite;
+    background: var(--iris); background-size: 200% auto;
+    animation: iris-flow 8s ease-in-out infinite alternate;
     opacity: 0; transition: opacity .3s;
   }
 
@@ -521,8 +521,7 @@
     .footer-links { flex-wrap: wrap; justify-content: center; }
     .cursor-dot, .cursor-ring { display: none; }
     body { cursor: auto; }
-  }
-</style>
+  }</style>
 </head>
 <body>
 

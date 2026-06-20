@@ -20,7 +20,7 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   @property --iris-angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
   @keyframes iris-rotate { to { --iris-angle: 360deg; } }
-  @keyframes iris-flow { 0% { background-position: 0% 0%; } 100% { background-position: 150% 150%; } }
+  @keyframes iris-flow { 0% { background-position: 0% 100%; } 100% { background-position: 100% 0%; } }
 
   :root {
     --bg: #050505; --bg2: #0b0b0b; --bg3: #111;
@@ -54,7 +54,7 @@
 
   nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 20px 48px; border-bottom: 1px solid var(--line); background: var(--nav-bg); backdrop-filter: blur(14px); }
   .nav-logo { font-family: var(--disp); font-size: 13px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--text); text-decoration: none; }
-  .iris-inline { background: var(--iris); background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: iris-flow 10s linear infinite; }
+  .iris-inline { background: var(--iris); background-size: 600% 600%; background-repeat: no-repeat; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: iris-flow 10s ease-in-out infinite alternate; }
   .nav-links { display: flex; gap: 32px; list-style: none; align-items: center; }
   .nav-links a { color: var(--muted); text-decoration: none; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; transition: color .2s; }
   .nav-links a:hover, .nav-links a.active { color: var(--text); }
@@ -71,7 +71,7 @@
   .page-header-glow { position: absolute; top: -30%; left: -10%; width: 60vw; height: 60vw; background: radial-gradient(ellipse at center, rgba(100,60,255,.04) 0%, transparent 65%); pointer-events: none; }
   .page-header-inner { max-width: 1200px; margin: 0 auto; }
   .page-tag { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
-  .page-tag::before { content: ''; display: inline-block; width: 24px; height: 1px; background: var(--iris); background-size: 300% 300%; animation: iris-flow 8s linear infinite; }
+  .page-tag::before { content: ''; display: inline-block; width: 24px; height: 1px; background: var(--iris); background-size: 600% 600%; background-repeat: no-repeat; animation: iris-flow 8s ease-in-out infinite alternate; }
   .page-header h1 { font-family: var(--disp); font-size: clamp(40px, 6vw, 72px); font-weight: 800; line-height: .95; letter-spacing: -.02em; margin-bottom: 20px; }
   .page-header h1 .outline { -webkit-text-stroke: 1px var(--text); color: transparent; }
   .page-header-desc { max-width: 520px; color: var(--muted); font-size: 14px; line-height: 1.8; }
@@ -80,7 +80,7 @@
   section { position: relative; z-index: 1; padding: 96px 48px; }
   .section-inner { max-width: 1200px; margin: 0 auto; }
   .section-label { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--text); margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
-  .section-label::after { content: ''; display: block; flex: 1; max-width: 48px; height: 1px; background: var(--iris); background-size: 300% 300%; animation: iris-flow 8s linear infinite; opacity: .75; }
+  .section-label::after { content: ''; display: block; flex: 1; max-width: 48px; height: 1px; background: var(--iris); background-size: 600% 600%; background-repeat: no-repeat; animation: iris-flow 8s ease-in-out infinite alternate; opacity: .75; }
   h2 { font-family: var(--disp); font-size: clamp(28px, 3.5vw, 48px); font-weight: 700; line-height: 1.1; letter-spacing: -.02em; margin-bottom: 48px; }
 
   /* MISSION */
@@ -115,7 +115,7 @@
   .stack-item { background: var(--bg3); border: 1px solid var(--line); padding: 28px 22px; }
   .stack-item-name { font-family: var(--disp); font-size: 15px; font-weight: 600; margin-bottom: 8px; }
   .stack-item-role { font-size: 11px; color: var(--muted); line-height: 1.6; }
-  .stack-item-tag { display: inline-block; margin-top: 14px; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; background: var(--iris); background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: iris-flow 10s linear infinite; border-bottom: 1px solid rgba(128,128,128,.2); padding-bottom: 2px; }
+  .stack-item-tag { display: inline-block; margin-top: 14px; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; background: var(--iris); background-size: 600% 600%; background-repeat: no-repeat; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: iris-flow 10s ease-in-out infinite alternate; border-bottom: 1px solid rgba(128,128,128,.2); padding-bottom: 2px; }
 
   /* FOOTER */
   footer { border-top: 1px solid var(--line); padding: 40px 48px; display: flex; justify-content: space-between; align-items: center; background: var(--bg); position: relative; z-index: 1; }
@@ -139,8 +139,7 @@
     footer { flex-direction: column; gap: 24px; text-align: center; padding: 36px 24px; }
     .footer-links { flex-wrap: wrap; justify-content: center; }
     .cursor-dot, .cursor-ring { display: none; } body { cursor: auto; }
-  }
-</style>
+  }</style>
 </head>
 <body>
 <div class="cursor-dot"></div>
