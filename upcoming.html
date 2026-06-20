@@ -9,17 +9,25 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script>if(localStorage.getItem('theme')!=='dark')document.documentElement.setAttribute('data-theme','light');</script>
 <style>
+  @font-face {
+    font-family: 'Nemesys';
+    src: url('fonts/NEMESYS-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   @property --iris-angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
   @keyframes iris-rotate { to { --iris-angle: 360deg; } }
-  @keyframes iris-flow { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
+  @keyframes iris-flow { 0% { background-position: 0% 0%; } 100% { background-position: 150% 150%; } }
 
   :root {
     --bg: #050505; --bg2: #0b0b0b; --bg3: #111;
     --line: rgba(255,255,255,0.07); --line2: rgba(255,255,255,0.14);
     --text: #efefef; --muted: #3f3f3f;
     --mono: 'DM Mono', monospace; --disp: 'Syne', sans-serif;
-    --iris: linear-gradient(90deg,#ff3cac,#ff9a3c,#fcf012,#3cffb0,#3cc8ff,#b03cff,#ff3cac);
+    --iris: linear-gradient(45deg,#ff3cac,#ff9a3c,#fcf012,#3cffb0,#3cc8ff,#b03cff,#ff3cac);
     --nav-bg: rgba(5,5,5,0.88); --scanline-color: rgba(255,255,255,0.008);
     --cursor-col: #fff; --cursor-ring-col: rgba(255,255,255,0.45); --noise-opacity: 0.28;
   }
@@ -46,7 +54,7 @@
 
   nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 20px 48px; border-bottom: 1px solid var(--line); background: var(--nav-bg); backdrop-filter: blur(14px); }
   .nav-logo { font-family: var(--disp); font-size: 13px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--text); text-decoration: none; }
-  .iris-inline { background: var(--iris); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: iris-flow 4s linear infinite; }
+  .iris-inline { background: var(--iris); background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: iris-flow 10s linear infinite; }
   .nav-links { display: flex; gap: 32px; list-style: none; align-items: center; }
   .nav-links a { color: var(--muted); text-decoration: none; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; transition: color .2s; }
   .nav-links a:hover, .nav-links a.active { color: var(--text); }
@@ -62,7 +70,7 @@
   .page-header-glow { position: absolute; top: -30%; right: -10%; width: 60vw; height: 60vw; background: radial-gradient(ellipse at center, rgba(60,200,255,.04) 0%, transparent 65%); pointer-events: none; }
   .page-header-inner { max-width: 1200px; margin: 0 auto; }
   .page-tag { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
-  .page-tag::before { content: ''; display: inline-block; width: 24px; height: 1px; background: var(--iris); background-size: 200% auto; animation: iris-flow 3s linear infinite; }
+  .page-tag::before { content: ''; display: inline-block; width: 24px; height: 1px; background: var(--iris); background-size: 300% 300%; animation: iris-flow 8s linear infinite; }
   .page-header h1 { font-family: var(--disp); font-size: clamp(40px, 6vw, 72px); font-weight: 800; line-height: .95; letter-spacing: -.02em; margin-bottom: 20px; }
   .page-header h1 .outline { -webkit-text-stroke: 1px var(--text); color: transparent; }
   .page-header-desc { max-width: 520px; color: var(--muted); font-size: 14px; line-height: 1.8; }
@@ -70,7 +78,7 @@
   section { position: relative; z-index: 1; padding: 96px 48px; }
   .section-inner { max-width: 1200px; margin: 0 auto; }
   .section-label { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--text); margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
-  .section-label::after { content: ''; display: block; flex: 1; max-width: 48px; height: 1px; background: var(--iris); background-size: 200% auto; animation: iris-flow 3s linear infinite; opacity: .75; }
+  .section-label::after { content: ''; display: block; flex: 1; max-width: 48px; height: 1px; background: var(--iris); background-size: 300% 300%; animation: iris-flow 8s linear infinite; opacity: .75; }
   h2 { font-family: var(--disp); font-size: clamp(28px, 3.5vw, 48px); font-weight: 700; line-height: 1.1; letter-spacing: -.02em; margin-bottom: 48px; }
 
   /* PROGRESS BAR */
@@ -78,7 +86,7 @@
   .progress-text { font-size: 12px; color: var(--muted); }
   .progress-count { font-family: var(--disp); font-size: 13px; font-weight: 600; }
   .progress-bar { height: 2px; background: var(--line2); border-radius: 1px; margin-bottom: 48px; overflow: hidden; }
-  .progress-fill { height: 100%; background: var(--iris); background-size: 200% auto; animation: iris-flow 3s linear infinite; width: 22%; border-radius: 1px; }
+  .progress-fill { height: 100%; background: var(--iris); background-size: 300% 300%; animation: iris-flow 8s linear infinite; width: 22%; border-radius: 1px; }
 
   /* MILESTONES */
   .milestone-list { display: grid; gap: 2px; }
@@ -98,7 +106,7 @@
   .future { background: var(--bg2); border-top: 1px solid var(--line); }
   .future-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; }
   .future-card { background: var(--bg3); border: 1px solid var(--line); padding: 36px 28px; position: relative; overflow: hidden; transition: border-color .25s; }
-  .future-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--iris); background-size: 200% auto; animation: iris-flow 3s linear infinite; opacity: 0; transition: opacity .3s; }
+  .future-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--iris); background-size: 300% 300%; animation: iris-flow 8s linear infinite; opacity: 0; transition: opacity .3s; }
   .future-card:hover { border-color: var(--line2); }
   .future-card:hover::after { opacity: 1; }
   .future-pill { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; padding: 4px 10px; border-radius: 2px; display: inline-block; margin-bottom: 20px; background: var(--bg); color: var(--muted); border: 1px solid var(--line); }
@@ -258,7 +266,7 @@
     <div class="future-grid">
       <div class="future-card reveal">
         <div class="future-pill">Concept</div>
-        <div class="future-name">LIMIT-1 Desktop</div>
+        <div class="future-name" style="font-family:'Nemesys',var(--disp);font-weight:400;letter-spacing:-.01em;">LIMIT-1 Desktop</div>
         <div class="future-sub">macOS / Windows</div>
         <p class="future-desc">Full macOS app via Catalyst and a native Windows build. The C++ DSP layer is already platform-agnostic — only the UI shell adapts per target.</p>
       </div>

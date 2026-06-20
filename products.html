@@ -9,6 +9,14 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script>if(localStorage.getItem('theme')!=='dark')document.documentElement.setAttribute('data-theme','light');</script>
 <style>
+  @font-face {
+    font-family: 'Nemesys';
+    src: url('fonts/NEMESYS-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   /* ── IRIDESCENT ENGINE ── */
@@ -19,8 +27,8 @@
   }
   @keyframes iris-rotate { to { --iris-angle: 360deg; } }
   @keyframes iris-flow {
-    0%   { background-position: 0% center; }
-    100% { background-position: 200% center; }
+    0%   { background-position: 0% 0%; }
+    100% { background-position: 150% 150%; }
   }
 
   :root {
@@ -33,7 +41,7 @@
     --muted: #3f3f3f;
     --mono:  'DM Mono', monospace;
     --disp:  'Syne', sans-serif;
-    --iris:  linear-gradient(90deg,#ff3cac,#ff9a3c,#fcf012,#3cffb0,#3cc8ff,#b03cff,#ff3cac);
+    --iris:  linear-gradient(45deg,#ff3cac,#ff9a3c,#fcf012,#3cffb0,#3cc8ff,#b03cff,#ff3cac);
     --nav-bg:           rgba(5,5,5,0.88);
     --scanline-color:   rgba(255,255,255,0.008);
     --cursor-col:       #fff;
@@ -156,11 +164,11 @@
 
   .iris-inline {
     background: var(--iris);
-    background-size: 200% auto;
+    background-size: 300% 300%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: iris-flow 4s linear infinite;
+    animation: iris-flow 10s linear infinite;
   }
 
   .nav-links { display: flex; gap: 36px; list-style: none; }
@@ -220,8 +228,8 @@
   .page-tag::before {
     content: '';
     display: inline-block; width: 24px; height: 1px;
-    background: var(--iris); background-size: 200% auto;
-    animation: iris-flow 3s linear infinite;
+    background: var(--iris); background-size: 300% 300%;
+    animation: iris-flow 8s linear infinite;
   }
 
   .page-header h1 {
@@ -253,8 +261,8 @@
 
   .section-label::after {
     content: ''; display: block; flex: 1; max-width: 48px; height: 1px;
-    background: var(--iris); background-size: 200% auto;
-    animation: iris-flow 3s linear infinite; opacity: .75;
+    background: var(--iris); background-size: 300% 300%;
+    animation: iris-flow 8s linear infinite; opacity: .75;
   }
 
   h2 {
@@ -283,8 +291,8 @@
   .product-featured-visual::before {
     content: '';
     position: absolute; top: 0; left: 0; right: 0; height: 1px;
-    background: var(--iris); background-size: 200% auto;
-    animation: iris-flow 3s linear infinite; opacity: .5;
+    background: var(--iris); background-size: 300% 300%;
+    animation: iris-flow 8s linear infinite; opacity: .5;
   }
 
   .product-badge {
@@ -340,15 +348,15 @@
   .product-visual-sub   { font-size: 9px; color: rgba(107,106,102,.4); letter-spacing: .1em; margin-top: 4px; text-align: center; }
 
   .product-name {
-    font-family: var(--disp);
-    font-size: clamp(36px, 4vw, 56px); font-weight: 800; line-height: 1; letter-spacing: -.02em;
+    font-family: 'Nemesys', var(--disp);
+    font-size: clamp(36px, 4vw, 56px); font-weight: 400; line-height: 1; letter-spacing: -.01em;
     margin-bottom: 8px;
   }
 
   .product-name .accent {
-    background: var(--iris); background-size: 200% auto;
+    background: var(--iris); background-size: 300% 300%;
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text; animation: iris-flow 4s linear infinite;
+    background-clip: text; animation: iris-flow 10s linear infinite;
   }
 
   .product-tagline {
@@ -365,9 +373,9 @@
   .spec-key { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
   .spec-val { font-family: var(--disp); font-size: 15px; font-weight: 600; }
   .spec-val .accent {
-    background: var(--iris); background-size: 200% auto;
+    background: var(--iris); background-size: 300% 300%;
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text; animation: iris-flow 4s linear infinite;
+    background-clip: text; animation: iris-flow 10s linear infinite;
   }
 
   .product-actions { display: flex; gap: 12px; align-items: center; }
@@ -427,8 +435,8 @@
   .upcoming-card::after {
     content: '';
     position: absolute; top: 0; left: 0; right: 0; height: 1px;
-    background: var(--iris); background-size: 200% auto;
-    animation: iris-flow 3s linear infinite;
+    background: var(--iris); background-size: 300% 300%;
+    animation: iris-flow 8s linear infinite;
     opacity: 0; transition: opacity .3s;
   }
 
@@ -631,7 +639,7 @@
 <section class="spec-table-section">
   <div class="section-inner">
     <div class="section-label reveal">Technical specs</div>
-    <h2 class="reveal">LIMIT-1 specifications</h2>
+    <h2 class="reveal"><span style="font-family:'Nemesys',var(--disp);font-weight:400;letter-spacing:-.01em;">LIMIT-1</span> specifications</h2>
     <div class="spec-table reveal">
       <div class="spec-row">
         <div class="spec-row-key">Audio Engine</div>
