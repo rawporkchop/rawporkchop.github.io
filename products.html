@@ -493,22 +493,13 @@
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
   /* ── THEME TOGGLE ── */
-  .theme-toggle {
-    background: none;
-    border: 1px solid var(--line2);
-    color: var(--muted);
-    width: 30px; height: 30px;
-    border-radius: 2px;
-    display: flex; align-items: center; justify-content: center;
-    padding: 0;
-    transition: border-color .2s, color .2s;
-    flex-shrink: 0;
-  }
-  .theme-toggle:hover { border-color: var(--text); color: var(--text); }
-
-  .theme-toggle .icon-dark { display: none; }
-  [data-theme="light"] .theme-toggle .icon-light { display: none; }
-  [data-theme="light"] .theme-toggle .icon-dark  { display: flex; }
+  .theme-toggle { background: none; border: none; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .toggle-knob { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; background: #141414; border: 1.5px solid rgba(255,255,255,.18); transition: transform .4s cubic-bezier(.77,0,.18,1), background .3s, border-color .3s; }
+  .toggle-knob::after { content: ''; position: absolute; top: 3px; left: 50%; transform: translateX(-50%); width: 2px; height: 7px; background: rgba(255,255,255,.85); border-radius: 1px; transition: background .3s; }
+  .toggle-knob-moon { color: rgba(255,255,255,.6); transition: transform .4s cubic-bezier(.77,0,.18,1), color .3s; }
+  [data-theme="light"] .toggle-knob { transform: rotate(-135deg); background: #f0f0f0; border-color: rgba(0,0,0,.2); }
+  [data-theme="light"] .toggle-knob::after { background: rgba(0,0,0,.65); }
+  [data-theme="light"] .toggle-knob-moon { transform: rotate(135deg); color: rgba(0,0,0,.5); }
 
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
