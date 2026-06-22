@@ -38,7 +38,7 @@
     --line:  rgba(255,255,255,0.07);
     --line2: rgba(255,255,255,0.14);
     --text:  #efefef;
-    --muted: #3f3f3f;
+    --muted: #888888;
     --mono:  'DM Mono', monospace;
     --disp:  'Syne', sans-serif;
     --iris:  linear-gradient(45deg,#ff3cac,#ff9a3c,#fcf012,#3cffb0,#3cc8ff,#b03cff,#ff3cac);
@@ -155,6 +155,8 @@
     backdrop-filter: blur(14px);
   }
 
+  .nav-logo-img { height: 40px; width: auto; vertical-align: middle; margin: 0 -20px; position: relative; top: -1px; display: inline-block; filter: invert(1); mix-blend-mode: screen; }
+  [data-theme="light"] .nav-logo-img { filter: none; mix-blend-mode: multiply; }
   .nav-logo {
     font-family: var(--disp);
     font-size: 13px; font-weight: 700;
@@ -531,19 +533,18 @@
 
 <!-- NAV -->
 <nav>
-  <a href="index.html" class="nav-logo">Arcsin<span class="iris-inline">.</span>Engineering</a>
+  <a href="index.html" class="nav-logo">Arcsin<img src="images/logo.jpg" class="nav-logo-img" alt="">Engineering</a>
   <ul class="nav-links">
     <li><a href="about.html">About</a></li>
     <li><a href="products.html" class="active">Products</a></li>
     <li><a href="upcoming.html">Upcoming</a></li>
     <li><a href="contact.html">Contact</a></li>
+    <li><a href="https://github.com/rawporkchop" class="nav-cta">GitHub</a></li>
     <li>
       <button class="theme-toggle" id="themeToggle" title="Toggle light/dark">
-        <svg class="icon-light" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-        <svg class="icon-dark"  width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <span class="toggle-knob"><svg class="toggle-knob-moon" width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
       </button>
     </li>
-    <li><a href="https://github.com/rawporkchop" class="nav-cta">GitHub</a></li>
   </ul>
 </nav>
 
@@ -743,7 +744,7 @@
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">Arcsin<span class="iris-inline">.</span>Engineering</div>
+  <div class="footer-logo">Arcsin<img src="images/logo.jpg" class="nav-logo-img" alt="">Engineering</div>
   <ul class="footer-links">
     <li><a href="about.html">About</a></li>
     <li><a href="products.html">Products</a></li>
