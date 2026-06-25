@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> hardware — Arcsin Engineering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script>if(localStorage.getItem('theme')!=='dark')document.documentElement.setAttribute('data-theme','light');</script>
+<style>
+  .catalog-hero { min-height: calc(100vh - 72px); margin-top: 72px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 80px 48px; border-bottom: 1px solid var(--line); }
+  .back-link { font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); text-decoration: none; margin-bottom: 48px; display: inline-flex; align-items: center; gap: 8px; transition: color .2s; }
+  .back-link:hover { color: var(--text); }
+  .catalog-label { font-size: 11px; letter-spacing: .25em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+  .catalog-title { font-family: var(--disp); font-size: clamp(48px, 10vw, 120px); font-weight: 800; letter-spacing: .08em; text-transform: uppercase; line-height: .9; margin-bottom: 24px; }
+  .catalog-sub { color: var(--muted); font-size: 13px; letter-spacing: .05em; }
+
+  @media (max-width: 900px) { .catalog-hero { padding: 60px 24px; } }
+</style>
+</head>
+<body>
+<div class="grid-overlay"></div>
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">Arcsin<img src="images/logo.jpg" class="nav-logo-img" alt="">Engineering</a>
+  <ul class="nav-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="products.html" class="active">Products</a></li>
+    <li><a href="upcoming.html">Upcoming</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="https://github.com/rawporkchop" class="nav-cta">GitHub</a></li>
+    <li>
+      <button class="theme-toggle" id="themeToggle" title="Toggle light/dark">
+        <span class="toggle-knob"><svg class="toggle-knob-moon" width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+      </button>
+    </li>
+  </ul>
+</nav>
+
+<div class="catalog-hero">
+  <a href="products.html" class="back-link">← Products</a>
+  <div class="catalog-label">Arcsin Engineering</div>
+  <h1 class="catalog-title">hardware</h1>
+  <p class="catalog-sub">Catalog coming soon.</p>
+</div>
+
+<footer>
+  <div class="footer-logo">Arcsin<img src="images/logo.jpg" class="nav-logo-img" alt="">Engineering</div>
+  <ul class="footer-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="upcoming.html">Upcoming</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="https://github.com/rawporkchop">GitHub</a></li>
+  </ul>
+  <div class="footer-copy">© 2025 Arcsin Engineering</div>
+</footer>
+
+<script>
+  const themeToggle = document.getElementById('themeToggle'), htmlEl = document.documentElement;
+  if (themeToggle) themeToggle.addEventListener('click', () => { const l = htmlEl.getAttribute('data-theme')==='light'; htmlEl.setAttribute('data-theme', l?'':'light'); localStorage.setItem('theme', l?'dark':'light'); });
+  const dot=document.querySelector('.cursor-dot'), ring=document.querySelector('.cursor-ring');
+  if (dot&&ring) { let mx=0,my=0,rx=0,ry=0; document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';}); (function loop(){rx+=(mx-rx)*.14;ry+=(my-ry)*.14;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})(); document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>ring.classList.add('hovering'));el.addEventListener('mouseleave',()=>ring.classList.remove('hovering'));}); }
+</script>
+</body>
+</html>
