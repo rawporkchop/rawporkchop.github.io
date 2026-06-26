@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Magazine — Arcsin Engineering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script>if(localStorage.getItem('theme')!=='dark')document.documentElement.setAttribute('data-theme','light');</script>
+<style>
+  .mag-header {
+    padding: calc(72px + 48px) 48px 48px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .mag-header-left { max-width: 560px; }
+
+  .mag-tag {
+    font-size: 11px; letter-spacing: .25em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .mag-tag::before {
+    content: ''; display: inline-block; width: 24px; height: 1px;
+    background: var(--iris); background-size: 600% 600%; background-repeat: no-repeat;
+    animation: iris-flow 8s ease-in-out infinite alternate;
+  }
+
+  .mag-title {
+    font-family: var(--disp);
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 800; line-height: .95; letter-spacing: -.02em;
+    margin-bottom: 16px;
+  }
+  .mag-title .outline { -webkit-text-stroke: 1px var(--text); color: transparent; }
+
+  .mag-desc { color: var(--muted); font-size: 13px; line-height: 1.8; }
+
+  .mag-issue {
+    font-family: var(--disp);
+    font-size: clamp(48px, 8vw, 96px);
+    font-weight: 800; letter-spacing: -.03em;
+    color: var(--line2); line-height: 1;
+    flex-shrink: 0;
+  }
+
+  /* CHAPTER GRID */
+  .mag-grid-wrap { padding: 10px; }
+
+  .mag-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+
+  .chapter-card {
+    border: 1px solid var(--line2);
+    background: var(--bg2);
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 24px;
+    text-decoration: none;
+    color: var(--text);
+    position: relative;
+    overflow: hidden;
+    transition: border-color .3s, background .3s;
+  }
+
+  .chapter-card:hover { border-color: var(--text); background: var(--bg3); }
+
+  /* subtle iris wash on hover */
+  .chapter-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: var(--iris); background-size: 600% 600%; background-repeat: no-repeat;
+    animation: iris-flow 10s ease-in-out infinite alternate;
+    opacity: 0; transition: opacity .35s;
+  }
+  .chapter-card:hover::before { opacity: .05; }
+
+  /* iris top-edge line */
+  .chapter-card::after {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: var(--iris); background-size: 600% 600%; background-repeat: no-repeat;
+    animation: iris-flow 8s ease-in-out infinite alternate;
+    opacity: 0; transition: opacity .3s;
+  }
+  .chapter-card:hover::after { opacity: 1; }
+
+  .chapter-num {
+    position: absolute; top: 20px; left: 24px;
+    font-family: var(--disp); font-size: 11px; font-weight: 700;
+    letter-spacing: .2em; color: var(--muted);
+    transition: color .3s;
+  }
+  .chapter-card:hover .chapter-num { color: var(--text); }
+
+  /* Large feature card spans 2 cols */
+  .chapter-card.feature {
+    grid-column: span 2;
+    aspect-ratio: 2 / 1;
+  }
+
+  .chapter-label {
+    font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 8px;
+    position: relative; z-index: 1;
+    transition: color .3s;
+  }
+  .chapter-card:hover .chapter-label { color: var(--muted); }
+
+  .chapter-title {
+    font-family: var(--disp);
+    font-size: clamp(15px, 1.6vw, 22px);
+    font-weight: 700; line-height: 1.15;
+    position: relative; z-index: 1;
+    transition: color .2s;
+  }
+
+  .chapter-arrow {
+    position: absolute; bottom: 24px; right: 24px;
+    font-size: 18px; color: var(--muted);
+    opacity: 0; transform: translate(-4px, 4px);
+    transition: opacity .25s, transform .25s;
+    z-index: 1;
+  }
+  .chapter-card:hover .chapter-arrow { opacity: 1; transform: translate(0,0); }
+
+  /* Placeholder "coming soon" state */
+  .chapter-card.locked {
+    opacity: .4;
+    pointer-events: none;
+  }
+  .chapter-card.locked .chapter-title { color: var(--muted); }
+
+  @media (max-width: 900px) {
+    .mag-header { padding: calc(72px + 32px) 24px 32px; }
+    .mag-grid { grid-template-columns: repeat(2, 1fr); }
+    .chapter-card.feature { grid-column: span 2; aspect-ratio: 2 / 1.4; }
+    .mag-grid-wrap { padding: 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="grid-overlay"></div>
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">Arcsin<img src="images/logo.jpg" class="nav-logo-img" alt="">Engineering</a>
+  <ul class="nav-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="upcoming.html">Upcoming</a></li>
+    <li><a href="magazine.html" class="active">Magazine</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li>
+      <button class="theme-toggle" id="themeToggle" title="Toggle light/dark">
+        <span class="toggle-knob"><svg class="toggle-knob-moon" width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+      </button>
+    </li>
+  </ul>
+</nav>
+
+<div class="mag-header">
+  <div class="mag-header-left">
+    <div class="mag-tag">Arcsin Engineering</div>
+    <h1 class="mag-title">Field<br><span class="outline">Notes</span></h1>
+    <p class="mag-desc">Writing on hardware design, embedded systems, music technology, and the process of building instruments that work on stage.</p>
+  </div>
+  <div class="mag-issue">№1</div>
+</div>
+
+<div class="mag-grid-wrap">
+  <div class="mag-grid">
+
+    <!-- Feature article -->
+    <a href="chapter-01.html" class="chapter-card feature">
+      <span class="chapter-num">01</span>
+      <span class="chapter-label">Origin</span>
+      <span class="chapter-title">Why we built a multieffects unit from scratch</span>
+      <span class="chapter-arrow">↗</span>
+    </a>
+
+    <a href="chapter-02.html" class="chapter-card">
+      <span class="chapter-num">02</span>
+      <span class="chapter-label">Hardware</span>
+      <span class="chapter-title">Choosing a DSP architecture for real-time audio</span>
+      <span class="chapter-arrow">↗</span>
+    </a>
+
+    <a href="chapter-03.html" class="chapter-card">
+      <span class="chapter-num">03</span>
+      <span class="chapter-label">Software</span>
+      <span class="chapter-title">Building a plugin bridge between Swift and C++</span>
+      <span class="chapter-arrow">↗</span>
+    </a>
+
+    <a href="chapter-04.html" class="chapter-card">
+      <span class="chapter-num">04</span>
+      <span class="chapter-label">Design</span>
+      <span class="chapter-title">Knob feel: the physics of tactile response</span>
+      <span class="chapter-arrow">↗</span>
+    </a>
+
+    <a href="chapter-05.html" class="chapter-card">
+      <span class="chapter-num">05</span>
+      <span class="chapter-label">Signal Path</span>
+      <span class="chapter-title">Latency targets for live performance</span>
+      <span class="chapter-arrow">↗</span>
+    </a>
+
+    <a href="chapter-06.html" class="chapter-card locked">
+      <span class="chapter-num">06</span>
+      <span class="chapter-label">Firmware</span>
+      <span class="chapter-title">Coming soon</span>
+    </a>
+
+    <a href="chapter-07.html" class="chapter-card locked">
+      <span class="chapter-num">07</span>
+      <span class="chapter-label">Field Test</span>
+      <span class="chapter-title">Coming soon</span>
+    </a>
+
+    <a href="chapter-08.html" class="chapter-card locked">
+      <span class="chapter-num">08</span>
+      <span class="chapter-label">Process</span>
+      <span class="chapter-title">Coming soon</span>
+    </a>
+
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Arcsin<img src="images/logo.jpg" class="nav-logo-img" alt="">Engineering</div>
+  <ul class="footer-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="upcoming.html">Upcoming</a></li>
+    <li><a href="magazine.html">Magazine</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="footer-copy">© 2025 Arcsin Engineering</div>
+</footer>
+
+<script>
+  const themeToggle = document.getElementById('themeToggle'), htmlEl = document.documentElement;
+  if (themeToggle) themeToggle.addEventListener('click', () => { const l = htmlEl.getAttribute('data-theme')==='light'; htmlEl.setAttribute('data-theme', l?'':'light'); localStorage.setItem('theme', l?'dark':'light'); });
+
+  const dot=document.querySelector('.cursor-dot'), ring=document.querySelector('.cursor-ring');
+  if (dot&&ring) { let mx=0,my=0,rx=0,ry=0; document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';}); (function loop(){rx+=(mx-rx)*.14;ry+=(my-ry)*.14;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})(); document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>ring.classList.add('hovering'));el.addEventListener('mouseleave',()=>ring.classList.remove('hovering'));}); }
+</script>
+</body>
+</html>
