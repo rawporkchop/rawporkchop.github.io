@@ -50,7 +50,7 @@ body::before {
 }
 body::after {
   content: '';
-  position: fixed; inset: 0;
+  position: fixed; top: 80px; left: 0; right: 0; bottom: 0;
   background: repeating-linear-gradient(0deg, transparent, transparent 3px, var(--scanline-color) 3px, var(--scanline-color) 4px);
   pointer-events: none; z-index: 9998;
 }
@@ -59,7 +59,7 @@ body::after {
   position: fixed; inset: 0; pointer-events: none; z-index: 0;
   background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
   background-size: 80px 80px;
-  mask-image: radial-gradient(ellipse 80% 80% at 50% 0%, black 0%, transparent 70%);
+  mask-image: linear-gradient(to bottom, transparent 72px, black 96px);
 }
 
 /* ── CURSOR ── */
@@ -67,7 +67,7 @@ body::after {
 .cursor-ring { position: fixed; top: 0; left: 0; width: 22px; height: 22px; pointer-events: none; z-index: 999998; transform: translate(-50%,-50%); transition: width .2s ease, height .2s ease; will-change: left,top; }
 .cursor-ring::before { content: ''; position: absolute; inset: 0; border-radius: 50%; padding: 1px; background: var(--cursor-ring-col); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask-composite: exclude; transition: background .25s; }
 .cursor-ring.hovering { width: 34px; height: 34px; }
-.cursor-ring.hovering::before { background: conic-gradient(from var(--iris-angle),#ff3cac,#ff9a3c,#fcf012,#3cffb0,#3cc8ff,#b03cff,#ff3cac); animation: iris-rotate 1.5s linear infinite; }
+
 
 /* ── NAV ── */
 nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 20px 48px; border-bottom: 1px solid var(--line); background: var(--nav-bg); backdrop-filter: blur(14px); }
