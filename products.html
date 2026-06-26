@@ -11,7 +11,7 @@
 <script>if(localStorage.getItem('theme')!=='dark')document.documentElement.setAttribute('data-theme','light');</script>
 <style>
   .category-split { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; padding-top: calc(72px + 10px); margin-bottom: 10px; }
-  .category-card { border: 1px solid var(--line2); min-height: 44vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; text-decoration: none; color: var(--text); background: var(--bg2); position: relative; overflow: hidden; transition: background .25s, border-color .25s; }
+  .category-card { border: 1px solid var(--line2); min-height: 28vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; text-decoration: none; color: var(--text); background: var(--bg2); position: relative; overflow: hidden; transition: background .25s, border-color .25s; }
   .category-card:hover { background: var(--bg3); border-color: var(--text); }
   .category-card::after { content: ''; position: absolute; inset: 0; background: var(--iris); background-size: 600% 600%; background-repeat: no-repeat; animation: iris-flow 10s ease-in-out infinite alternate; opacity: 0; transition: opacity .3s; }
   .category-card:hover::after { opacity: .04; }
@@ -71,7 +71,7 @@
 
   @media (max-width: 900px) {
     .category-split { padding: 10px; padding-top: calc(72px + 10px); }
-    .category-card { min-height: 36vh; }
+    .category-card { min-height: 24vh; }
     .product-featured { grid-template-columns: 1fr; gap: 40px; }
     .upcoming-grid { grid-template-columns: 1fr; }
     .spec-row { grid-template-columns: 140px 1fr; }
@@ -91,7 +91,7 @@
     <li><a href="about.html">About</a></li>
     <li><a href="products.html" class="active">Products</a></li>
     <li><a href="upcoming.html">Upcoming</a></li>
-    <li><a href="magazine.html">Magazine</a></li>
+    <li><a href="community.html">Community</a></li>
     <li><a href="contact.html">Contact</a></li>
     <li>
       <button class="theme-toggle" id="themeToggle" title="Toggle light/dark">
@@ -109,6 +109,14 @@
   </a>
   <a href="hardware.html" class="category-card">
     <span class="category-name">Hardware</span>
+    <span class="category-arrow">View Catalog →</span>
+  </a>
+  <a href="design.html" class="category-card">
+    <span class="category-name">Design</span>
+    <span class="category-arrow">View Catalog →</span>
+  </a>
+  <a href="art.html" class="category-card">
+    <span class="category-name">Art</span>
     <span class="category-arrow">View Catalog →</span>
   </a>
 </div>
@@ -298,7 +306,7 @@
     <li><a href="about.html">About</a></li>
     <li><a href="products.html">Products</a></li>
     <li><a href="upcoming.html">Upcoming</a></li>
-    <li><a href="magazine.html">Magazine</a></li>
+    <li><a href="community.html">Community</a></li>
     <li><a href="contact.html">Contact</a></li>
     <li><a href="https://github.com/rawporkchop">GitHub</a></li>
   </ul>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Community — Arcsin Engineering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script>if(localStorage.getItem('theme')!=='dark')document.documentElement.setAttribute('data-theme','light');</script>
+<style>
+  /* HUB BOXES */
+  .hub-grid {
+    display: grid;
+    grid-template-rows: auto auto;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .hub-card {
+    border: 1px solid var(--line2);
+    background: var(--bg2);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    padding: 64px;
+    text-decoration: none;
+    color: var(--text);
+    position: relative;
+    overflow: hidden;
+    transition: background .25s, border-color .25s;
+    min-height: 52vh;
+  }
+  .hub-card:hover { background: var(--bg3); border-color: var(--text); }
+
+  .hub-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: var(--iris); background-size: 600% 600%; background-repeat: no-repeat;
+    animation: iris-flow 10s ease-in-out infinite alternate;
+    opacity: 0; transition: opacity .35s;
+  }
+  .hub-card:hover::before { opacity: .04; }
+
+  .hub-card::after {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: var(--iris); background-size: 600% 600%; background-repeat: no-repeat;
+    animation: iris-flow 8s ease-in-out infinite alternate;
+    opacity: 0; transition: opacity .3s;
+  }
+  .hub-card:hover::after { opacity: 1; }
+
+  .hub-card-left { position: relative; z-index: 1; }
+
+  .hub-tag {
+    font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 16px;
+  }
+  .hub-name {
+    font-family: var(--disp);
+    font-size: clamp(32px, 5vw, 64px);
+    font-weight: 800; line-height: .92; letter-spacing: -.01em;
+    margin-bottom: 16px;
+  }
+  .hub-name .outline { -webkit-text-stroke: 1px var(--text); color: transparent; }
+  .hub-desc {
+    font-size: 13px; color: var(--muted); line-height: 1.8;
+    max-width: 520px;
+  }
+
+  .hub-card-right {
+    position: relative; z-index: 1;
+    display: flex; flex-direction: column; align-items: flex-end; gap: 12px;
+  }
+  .hub-issue-num {
+    font-family: var(--disp);
+    font-size: clamp(56px, 9vw, 112px);
+    font-weight: 800; letter-spacing: -.03em;
+    color: var(--line2); line-height: 1;
+  }
+  .hub-arrow {
+    font-size: 13px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--muted); transition: color .25s, letter-spacing .25s;
+  }
+  .hub-card:hover .hub-arrow { color: var(--text); letter-spacing: .2em; }
+
+  @media (max-width: 900px) {
+    .hub-grid { padding: 10px; padding-top: calc(72px + 10px); }
+    .hub-card { grid-template-columns: 1fr; min-height: 40vh; padding: 40px 24px; gap: 24px; }
+    .hub-card-right { flex-direction: row; align-items: center; }
+    .hub-issue-num { font-size: clamp(40px, 10vw, 72px); }
+  }
+</style>
+</head>
+<body>
+<div class="grid-overlay"></div>
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">Arcsin<img src="images/logo.jpg" class="nav-logo-img" alt="">Engineering</a>
+  <ul class="nav-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="upcoming.html">Upcoming</a></li>
+    <li><a href="community.html" class="active">Community</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li>
+      <button class="theme-toggle" id="themeToggle" title="Toggle light/dark">
+        <span class="toggle-knob"><svg class="toggle-knob-moon" width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+      </button>
+    </li>
+  </ul>
+</nav>
+
+<div class="hub-grid" style="padding-top: calc(72px + 10px);">
+
+  <!-- LATEST ISSUE -->
+  <a href="field-notes.html" class="hub-card">
+    <div class="hub-card-left">
+      <div class="hub-tag">Latest Issue</div>
+      <div class="hub-name">Issue One:<br><span class="outline">The Beginning</span></div>
+      <p class="hub-desc">Writing on hardware design, embedded systems, music technology, and the process of building instruments that work on stage.</p>
+    </div>
+    <div class="hub-card-right">
+      <div class="hub-issue-num">№1</div>
+      <div class="hub-arrow">Read Issue →</div>
+    </div>
+  </a>
+
+  <!-- FORUM -->
+  <a href="forum.html" class="hub-card">
+    <div class="hub-card-left">
+      <div class="hub-tag">Discussion</div>
+      <div class="hub-name">Commu<span class="outline">nity</span><br>Forum</div>
+      <p class="hub-desc">Ask questions, share builds, and discuss audio hardware and software with everyone following the LIMIT-1 project.</p>
+    </div>
+    <div class="hub-card-right">
+      <div class="hub-arrow">Enter Forum →</div>
+    </div>
+  </a>
+
+</div>
+
+<footer>
+  <div class="footer-logo">Arcsin<img src="images/logo.jpg" class="nav-logo-img" alt="">Engineering</div>
+  <ul class="footer-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="upcoming.html">Upcoming</a></li>
+    <li><a href="community.html">Community</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="footer-copy">© 2025 Arcsin Engineering</div>
+</footer>
+
+<script>
+  const themeToggle = document.getElementById('themeToggle'), htmlEl = document.documentElement;
+  if (themeToggle) themeToggle.addEventListener('click', () => { const l = htmlEl.getAttribute('data-theme')==='light'; htmlEl.setAttribute('data-theme', l?'':'light'); localStorage.setItem('theme', l?'dark':'light'); });
+
+  const dot=document.querySelector('.cursor-dot'), ring=document.querySelector('.cursor-ring');
+  if (dot&&ring) { let mx=0,my=0,rx=0,ry=0; document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';}); (function loop(){rx+=(mx-rx)*.14;ry+=(my-ry)*.14;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})(); document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>ring.classList.add('hovering'));el.addEventListener('mouseleave',()=>ring.classList.remove('hovering'));}); }
+</script>
+</body>
+</html>
