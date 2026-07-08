@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AVR Link — Seamless AV Receiver Control</title>
+<style>
+  :root {
+    --ink: #1b1f1d;
+    --paper: #f6f5f1;
+    --line: #d8d5cc;
+    --signal: #2f6f4f;
+    --signal-light: #e9f2ed;
+    --muted: #6b6f68;
+    --white: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.65;
+  }
+  .wrap {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 40px 24px 96px;
+  }
+  header.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 20px;
+    margin-bottom: 64px;
+  }
+  .mark {
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    font-size: 18px;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .mark span { color: var(--signal); }
+  nav a {
+    font-size: 14px;
+    color: var(--muted);
+    text-decoration: none;
+    margin-left: 24px;
+    font-weight: 500;
+  }
+  nav a:hover, nav a.active { color: var(--ink); }
+  
+  .hero {
+    text-align: center;
+    margin-bottom: 80px;
+    padding: 20px 0;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: 44px;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin: 0 0 16px;
+  }
+  .hero p {
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 600px;
+    margin: 0 auto 32px;
+  }
+  .badge-container {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--signal);
+    margin-bottom: 24px;
+  }
+  .badge {
+    background: var(--signal-light);
+    padding: 4px 12px;
+    border-radius: 12px;
+  }
+  .cta-button {
+    display: inline-block;
+    background: var(--signal);
+    color: var(--white);
+    text-decoration: none;
+    padding: 14px 32px;
+    font-weight: 600;
+    font-size: 15px;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+  }
+  .cta-button:hover { background: #23523a; }
+
+  h2 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--signal);
+    margin: 64px 0 24px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 8px;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+  }
+  .card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 28px;
+  }
+  .card h3 {
+    font-size: 18px;
+    margin: 0 0 12px;
+    font-weight: 700;
+  }
+  .card p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  footer {
+    margin-top: 96px;
+    font-size: 13px;
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  footer a { color: var(--muted); text-decoration: none; }
+  footer a:hover { color: var(--ink); }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <a class="mark" href="index.html">AVR<span>·</span>Link</a>
+      <nav>
+        <a href="index.html" class="active">Overview</a>
+        <a href="support.html">Support</a>
+        <a href="privacy.html">Privacy</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="badge-container">
+        <span class="badge">macOS</span>
+        <span class="badge">iOS</span>
+        <span class="badge">watchOS</span>
+      </div>
+      <h1>Control your AV receiver, seamlessly.</h1>
+      <p>AVR Link is a lightweight companion suite built entirely around your local Apple experience. Zero cloud tracking, responsive control, absolute simplicity.</p>
+      <a href="https://github.com/rawporkchop/AVR-Link" target="_blank" rel="noopener" class="cta-button">View Codebase</a>
+    </section>
+
+    <h2>Ecosystem Architecture</h2>
+    <div class="grid-3">
+      <div class="card">
+        <h3>macOS Menu Bar</h3>
+        <p>A compact desktop utility resting in your status bar. Mix volume fluidly using an AppKit-powered scrub HUD with integrated desktop blurs.</p>
+      </div>
+      <div class="card">
+        <h3>iOS Companion</h3>
+        <p>Complete remote parity with Home Screen widgets, Lock Screen status indicators, Control Center items, and native hardware button integration.</p>
+      </div>
+      <div class="card">
+        <h3>watchOS Remote</h3>
+        <p>A sleek wrist controller leveraging the Digital Crown for volume adjustments while mirroring status via direct iPhone background relays.</p>
+      </div>
+    </div>
+
+    <footer>
+      <span>AVR Link — Core Suite</span>
+      <span>Released under the MIT License</span>
+    </footer>
+  </div>
+</body>
+</html>
