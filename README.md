@@ -1,11 +1,11 @@
 # AVR Link
 
 A macOS **menu-bar app**, an **iOS companion app**, and an **Apple Watch app** that discover and
-control **Denon / Marantz** AV receivers over their local-network control protocol (telnet on TCP 23).
+control telnet-enabled AVR receivers over their local-network control protocol (telnet on TCP 23).
 Power/standby, volume, mute, input selection, and independent control of the Main / Zone 2 / Zone 3
 speaker zones.
 
-This is a clean-room implementation grounded in the vendor protocol specs in [`protocol/`](protocol/).
+This is a clean-room implementation grounded in the vendor protocol specs.
 All three apps are thin UI shells over a shared, headless-tested engine (`AVRLinkCore`).
 
 > The Swift package lives in `avrKit/`: its pure, dependency-free protocol codec is the `AVRKit`
