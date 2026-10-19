@@ -22,3 +22,16 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# macOS
+.DS_Store
+
+# Env
+.env
+.env.*
+!.env.example
+
+# 3D source assets (keep exported .glb in public/)
+/assets-src/
+*.blend
+*.blend[0-9]*

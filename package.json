@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.9",
