@@ -11,6 +11,14 @@ export function Lighting({ keyPosition, keyIntensity }: LightingProps) {
         position={keyPosition}
         intensity={keyIntensity}
         castShadow
+        shadow-mapSize={[2048, 2048]}
+        shadow-camera-left={-5}
+        shadow-camera-right={5}
+        shadow-camera-top={5}
+        shadow-camera-bottom={-5}
+        shadow-camera-near={0.5}
+        shadow-camera-far={30}
+        shadow-bias={-0.0005}
       />
       <directionalLight position={[5, 3, -5]} intensity={1} />
     </>

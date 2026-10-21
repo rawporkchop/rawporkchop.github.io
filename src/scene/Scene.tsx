@@ -1,25 +1,8 @@
 import { OrbitControls } from "@react-three/drei";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { useRef } from "react";
-import * as THREE from "three";
+import { Canvas } from "@react-three/fiber";
+import { Suspense } from "react";
 import { Lighting } from "./Lighting.tsx";
-
-function Box() {
-  const ref = useRef<THREE.Mesh>(null);
-
-  useFrame((_, delta) => {
-    if (!ref.current) return;
-    ref.current.rotation.y += delta * 0.5;
-    ref.current.rotation.x += delta * 0.2;
-  });
-
-  return (
-    <mesh ref={ref} position={[0, 0.5, 0]} castShadow>
-      <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color="#2F6B75" />
-    </mesh>
-  );
-}
+import { Volvo245 } from "./Volvo245.tsx";
 
 function Ground() {
   return (
@@ -38,7 +21,9 @@ export function Scene() {
       <Lighting keyPosition={[5, 8, 5]} keyIntensity={2.5} />
 
       <Ground />
-      <Box />
+      <Suspense fallback={null}>
+        <Volvo245 />
+      </Suspense>
 
       <OrbitControls
         target={[0, 0.7, 0]}
