@@ -1,16 +1,14 @@
-.window-layer {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-}
-
 .window {
   border-radius: 10px;
-  background-color: transparent;
+  background-color: black;
+
   overflow: hidden;
   pointer-events: auto;
 
   position: absolute;
   top: 400px;
-  left: 50%;
+  left: calc(50% - 230px);
+
+  width: 460px;
+  height: 320px;
 }

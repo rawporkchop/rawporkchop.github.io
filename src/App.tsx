@@ -5,7 +5,9 @@ export default function App() {
   return (
     <>
       <Scene />
-      <MacWindow />
+      <div className="window-layer">
+        <MacWindow />
+      </div>
     </>
   );
 }
