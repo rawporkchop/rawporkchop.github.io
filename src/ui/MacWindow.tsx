@@ -6,7 +6,7 @@ export function MacWindow() {
       <div className="header">
         <h2>Title</h2>
       </div>
-      <div className="body">
+      <div className="text">
         <p>this is some test english </p>
       </div>
     </section>
