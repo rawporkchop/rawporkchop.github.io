@@ -33,13 +33,6 @@
   background: rgba(255, 255, 255, 0.06);
 }
 
-.header h2 {
-  font-size: 14px;
-  font-weight: 600;
-  margin: 0;
-  color: inherit;
-}
-
 .light {
   appearance: none;
   padding: 0;
@@ -48,8 +41,10 @@
   height: 12px;
   border-radius: 50%;
   flex: 0 0 auto;
+  box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.2);
 }
 
+/* MacOS Colors */
 .close {
   background: #ff5f57;
 }
@@ -60,8 +55,23 @@
   background: #28c840;
 }
 
+.header h2 {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  color: inherit;
+}
+
 .text {
   flex: 1;
   overflow: auto;
-  padding: 14px;
+  padding: 13px;
+  font-size: 14px;
 }
