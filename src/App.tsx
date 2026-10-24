@@ -6,7 +6,12 @@ export default function App() {
     <>
       <Scene />
       <div className="window-layer">
-        <MacWindow />
+        <MacWindow title="Window 1" x={100} y={200}>
+          <p>test string</p>
+        </MacWindow>
+        <MacWindow title="Window 2" x={400} y={400}>
+          <p>test string2</p>
+        </MacWindow>
       </div>
     </>
   );
