@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import type { ReactNode } from "react";
-import "./MacWindow.css";
+import "./Body.css";
 
 interface MacWindowProps {
   title: string;
