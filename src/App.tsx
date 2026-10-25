@@ -5,6 +5,10 @@ import { Scene } from "./scene/Scene.tsx";
 interface WindowInstance {
   id: number; // identity — never reused, used as React key
   appId: AppId; // which app this is a window of
+
+  width: number;
+  height: number;
+
   x: number;
   y: number;
 }
@@ -26,21 +30,38 @@ export type AppId = keyof typeof APPS;
 
 export default function App() {
   const [windows, setWindows] = useState<WindowInstance[]>([
-    { id: 1, appId: "about", x: 100, y: 200 },
+    { id: 1, appId: "about", x: 100, y: 200, width: 400, height: 300 },
+    { id: 2, appId: "projects", x: 400, y: 300, width: 400, height: 300 },
   ]);
 
-  const nextId = useRef(2);
+  const nextId = useRef(3);
+
+  const clamp = (v: number, min: number, max: number) =>
+    Math.min(Math.max(v, min), max);
 
   const closeWindow = (id: number) =>
     setWindows((prev) => prev.filter((w) => w.id !== id));
 
-  const moveWindow = (id: number, x: number, y: number) =>
-    setWindows((prev) => prev.map((w) => (w.id === id ? { ...w, x, y } : w)));
+  const moveWindow = (id: number, x: number, y: number) => {
+    const edge = 0;
+
+    return setWindows((prev) =>
+      prev.map((w) =>
+        w.id === id
+          ? {
+              ...w,
+              x: clamp(x, edge, window.innerWidth - w.width - edge),
+              y: clamp(y, edge, window.innerHeight - w.height - edge),
+            }
+          : w,
+      ),
+    );
+  };
 
   const openWindow = (appId: AppId) =>
     setWindows((prev) => [
       ...prev,
-      { id: nextId.current++, appId, x: 140, y: 140 },
+      { id: nextId.current++, appId, x: 140, y: 140, width: 400, height: 300 },
     ]);
 
   return (
