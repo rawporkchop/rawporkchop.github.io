@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 30 122 60" width="244" height="120" role="img" aria-label="Oliver Larsson logo">
+  <title>Oliver Larsson logo (for dark backgrounds)</title>
+  <defs>
+    <mask id="ol-cut" maskUnits="userSpaceOnUse" x="0" y="30" width="122" height="60">
+      <rect x="2" y="34" width="42" height="52" rx="8" fill="#fff"/>
+      <rect x="48" y="34" width="42" height="52" rx="8" fill="#fff"/>
+      <rect x="13" y="46" width="20" height="28" rx="7" fill="none" stroke="#000" stroke-width="6"/>
+      <path d="M61 46 V74 H77" fill="none" stroke="#000" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+    </mask>
+  </defs>
+  <rect x="0" y="30" width="92" height="60" fill="#F2EEE3" mask="url(#ol-cut)"/>
+  <polyline fill="none" stroke="#E9A23B" stroke-width="5" stroke-linejoin="miter" stroke-linecap="square" points="106,34 106,40 117,40 117,46 95,46 95,52 117,52 117,58 95,58 95,64 117,64 117,70 95,70 95,76 106,76 106,86"/>
+</svg>
